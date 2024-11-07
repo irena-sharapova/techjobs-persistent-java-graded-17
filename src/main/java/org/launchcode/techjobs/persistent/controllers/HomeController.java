@@ -1,6 +1,7 @@
 package org.launchcode.techjobs.persistent.controllers;
 
 import jakarta.validation.Valid;
+import org.launchcode.techjobs.persistent.models.Employer;
 import org.launchcode.techjobs.persistent.models.Job;
 import org.launchcode.techjobs.persistent.models.data.EmployerRepository;
 import org.launchcode.techjobs.persistent.models.data.JobRepository;
@@ -27,6 +28,9 @@ public class HomeController {
     @Autowired
     private SkillRepository skillRepository;
 
+    @Autowired
+    private JobRepository jobRepository;
+
     @RequestMapping("/")
     public String index(Model model) {
 
@@ -37,9 +41,9 @@ public class HomeController {
 
     @GetMapping("add")
     public String displayAddJobForm(Model model) {
-	model.addAttribute("title", "Add Job");
-        model.addAttribute(new Job());
+	    model.addAttribute("title", "Add Job");
         model.addAttribute("employers", employerRepository.findAll());
+        model.addAttribute("job", new Job());
         return "add";
     }
 
@@ -53,12 +57,31 @@ public class HomeController {
             return "add";
         }
 
+        Optional<Employer> result = employerRepository.findById(employerId);
+        if(result.isEmpty()) {
+            model.addAttribute("title", "Invalid Employer ID: " + employerId);
+            return "add";
+
+        } else {
+            Employer employer = result.get();
+            newJob.setEmployer(employer);
+        }
+
+        jobRepository.save(newJob);
+
         return "redirect:";
     }
 
     @GetMapping("view/{jobId}")
     public String displayViewJob(Model model, @PathVariable int jobId) {
+        Optional<Job> result = jobRepository.findById(jobId);
+        if (result.isEmpty()) {
+            model.addAttribute("title", "Job not found ");
+            return "error";
+        }
 
+        Job job = result.get();
+        model.addAttribute("job", job);
             return "view";
     }
 
