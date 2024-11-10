@@ -14,6 +14,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,12 +52,7 @@ public class HomeController {
     @PostMapping("add")
     public String processAddJobForm(@RequestParam(required = false) List<Integer> skills, @ModelAttribute @Valid Job newJob,
                                     Errors errors, Model model, @RequestParam(required = false) int employerId) {
-        if (employerId == 0) {
-            model.addAttribute("title", "Add Job");
-            model.addAttribute("employers", employerRepository.findAll());
-            model.addAttribute("skills", skillRepository.findAll());
-            return "add";
-        }
+
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "Add Job");
@@ -75,6 +71,7 @@ public class HomeController {
 
         Employer employer = optEmployer.get();
         newJob.setEmployer(employer);
+
 
         List<Skill> skillObjs = (List<Skill>) skillRepository.findAllById(skills);
 
