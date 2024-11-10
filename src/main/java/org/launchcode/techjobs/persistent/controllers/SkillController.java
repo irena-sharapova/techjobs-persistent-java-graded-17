@@ -46,7 +46,7 @@ public class SkillController {
         }
 
         skillRepository.save(newSkill);
-        return "redirect:/skills/";
+        return "redirect:";
     }
 
     @GetMapping("view/{skillId}")

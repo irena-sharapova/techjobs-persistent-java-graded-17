@@ -43,7 +43,7 @@ public class EmployerController {
 
         employerRepository.save(newEmployer);
         model.addAttribute("employers", employerRepository.findAll());
-        return "employers/index";
+        return "redirect:";
     }
 
     @GetMapping("view/{employerId}")

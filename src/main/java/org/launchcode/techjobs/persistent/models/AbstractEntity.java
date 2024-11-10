@@ -1,9 +1,7 @@
 package org.launchcode.techjobs.persistent.models;
 
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -13,8 +11,15 @@ import java.util.Objects;
 @MappedSuperclass
 public abstract class AbstractEntity {
 
+
+    @TableGenerator(
+            name = "yourTableGenerator",
+            allocationSize = 1,
+            initialValue = 1)
     @Id
-    @GeneratedValue
+    @GeneratedValue(
+            strategy= GenerationType.TABLE,
+            generator="yourTableGenerator")
     private int id;
 
     @NotBlank(message = "Name is required")
