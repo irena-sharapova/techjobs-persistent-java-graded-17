@@ -53,7 +53,6 @@ public class HomeController {
     public String processAddJobForm(@RequestParam(required = false) List<Integer> skills, @ModelAttribute @Valid Job newJob,
                                     Errors errors, Model model, @RequestParam(required = false) int employerId) {
 
-
         if (errors.hasErrors()) {
             model.addAttribute("title", "Add Job");
             model.addAttribute("employers", employerRepository.findAll());

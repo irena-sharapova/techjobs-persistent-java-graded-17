@@ -24,7 +24,6 @@ public class SearchController {
     @Autowired
     private JobRepository jobRepository;
 
-
     @Autowired
     private EmployerRepository employerRepository;
 
@@ -52,7 +51,7 @@ public class SearchController {
         Iterable<Job> jobs;
         if (searchTerm.toLowerCase().equals("all") || searchTerm.equals("")){
             jobs = jobRepository.findAll();
-            model.addAttribute("jobs", jobs);
+
 
         } else {
             jobs = JobData.findByColumnAndValue(searchType, searchTerm, jobRepository.findAll());
