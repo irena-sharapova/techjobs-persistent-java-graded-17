@@ -35,14 +35,14 @@ public class HomeController {
 
     @RequestMapping("/")
     public String index(Model model) {
-        model.addAttribute("title", "MyJobs");
+       // model.addAttribute("title", "MyJobs");
         model.addAttribute("jobs", jobRepository.findAll());
         return "index";
     }
 
     @GetMapping("add")
     public String displayAddJobForm(Model model) {
-        model.addAttribute("title", "Add Job");
+      //  model.addAttribute("title", "Add Job");
         model.addAttribute("employers", employerRepository.findAll());
         model.addAttribute("skills", skillRepository.findAll());
         model.addAttribute("job", new Job());
@@ -64,14 +64,14 @@ public class HomeController {
         if (optEmployer.isEmpty()) {
             model.addAttribute("title", "Invalid Employer ID: " + employerId);
             model.addAttribute("employers", employerRepository.findAll());
-            model.addAttribute("skill", skillRepository.findAll());
+            model.addAttribute("skills", skillRepository.findAll());
             return "add";
         }
 
         Employer employer = optEmployer.get();
         newJob.setEmployer(employer);
 
-
+// Employer employer = employerRepository.findById(employerId).orElse(new Employer());
         List<Skill> skillObjs = (List<Skill>) skillRepository.findAllById(skills);
 
             newJob.setSkills(skillObjs);
